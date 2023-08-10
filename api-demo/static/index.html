@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peliculas</title>
+</head>
+<script type="module">
+    const $article = document.querySelector(".container");
+
+    const config = {
+        method: 'get',
+        headers: {
+            "Content-Type": 'application/json'
+        }  
+    }
+
+    api()
+    
+    function api(){
+        const movies = fetch('http://localhost:1234/movies', {method: 'GET'})
+            .then(res => res.json())
+            .then(movies => {
+                const html = movies.map( movie =>{
+                    return  `<div>
+                                <h3>${movie.title}</h3>
+                                <img src="${movie.poster}">
+                                <p>${movie.year}</p>
+                            </div>
+                    `
+                }).join(' ')
+                $article.innerHTML = html
+            })
+        }
+
+
+</script>
+<style>
+
+    *{
+        box-sizing: border-box;
+        padding: 0;
+        margin: 0;
+    }
+    .container{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        max-width: 720px;
+        text-align: center;
+        margin: 0 auto;
+    }
+    img{
+        max-width: 300px;
+        max-height: 400px;
+    }
+    div{
+        text-wrap: wrap;
+        border-radius: 10px;
+        border: 3px solid #7e7e7e;
+        padding: 20px;
+    }
+</style>
+<body>
+    <h1>Lista de peliculas</h1>
+    <main>
+        <section>
+            <article class="container">
+            </article>
+        </section>
+    </main>
+</body>
+</html>
